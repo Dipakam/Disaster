@@ -12,7 +12,6 @@ if ($conn->connect_error) {
 $sql = " select * from loc ";
 $result = $conn->query($sql);
 /*if($result){
-
     /*$array = $result->fetch_assoc();
     echo $array['longitude'];
     echo "<br>";
@@ -41,6 +40,16 @@ $index = 0;
 <head>
 <script src='https://api.mapbox.com/mapbox-gl-js/v0.50.0/mapbox-gl.js'></script>
 <link href='https://api.mapbox.com/mapbox-gl-js/v0.50.0/mapbox-gl.css' rel='stylesheet' />
+<style>
+.marker {
+  background-image: url('mapbox-icon.png');
+  background-size: cover;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+</style>
 </head>
     <body>
         <p id="demo1"></p>
@@ -55,25 +64,64 @@ $index = 0;
                 longitude.push('<?php echo $longitudes[$index]; ?>');
                 lattitude.push('<?php echo $lattitudes[$index]; ?>');
                 <?php } ?>
-                mapboxgl.accessToken = 'pk.eyJ1IjoiZGlwYWthbSIsImEiOiJjam5tNnZ4NnEwMjI3M2ttbnF0ZDduNW5qIn0.WcGAmwlNApA5ZiFd2h23Tg';
+                mapboxgl.accessToken = 'pk.eyJ1IjoidGFvZ21hb2ciLCJhIjoiY2pucDUzZm8xMGZndjNscGZ3eW16NXRjNSJ9.NwxPcJd3-dAa49X32uz_CA';
                 var map = new mapboxgl.Map({
                     container: 'map',
                     center: [80.2368039,26.513967299999997],
                     zoom:  13,
                     style: 'mapbox://styles/mapbox/streets-v10'
                 });
-                //var obj = <?php echo json_encode($result); ?>;
+                var geojson = {};
+                geojson['type'] = 'FeatureCollection';
+                geojson['features'] = [];
+
+                for (row = 0;row < length;row ++) {
+                    var newFeature = {
+                        "type": "Feature",
+                        "geometry": {
+                            "type": "Point",
+                            "coordinates": [longitude[row], lattitude[row]]
+                        },
+                        "properties": {
+                            "title": "Mapbox"
+                            "description": "save me"
+                        }
+                    }
+                    geojson['features'].push(newFeature);
+                }
+
+
+                // add markers to map
+                geojson.features.forEach(function(marker) {
+
+                  // create a HTML element for each feature
+                  var el = document.createElement('div');
+                  el.className = 'marker';
+
+                  // make a marker for each feature and add to the map
+                  new mapboxgl.Marker(el)
+                  .setLngLat(marker.geometry.coordinates)
+                  .addTo(map);
+                });
+
+
+
+
+
+
+
+
+                //var obj = <?php //echo json_encode($result); ?>;
              
                 //document.getElementById("demo1").innerHTML = longitude[0];
                 //document.getElementById("demo2").innerHTML = longitude[1];
-                var row = 0;
-                for (row = 0;row < length;row ++) {
+                //var row = 0;
+                //for (row = 0;row < length;row ++) {
                 
-                var marker = new mapboxgl.Marker()
-                .setLngLat([lattitude[row], longitude[row]])
-                .addTo(map);
-                }
-
+                //var marker = new mapboxgl.Marker()
+                //.setLngLat([lattitude[row], longitude[row]])
+                //.addTo(map);
+                //}
             </script>
     </body>
     <?php
