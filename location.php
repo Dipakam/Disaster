@@ -15,12 +15,14 @@ $name = "'".$_POST['nameU']."'";
 $age = $_POST['age'];
 $longitude = $_POST['longitude'];
 $lattitude = $_POST['lattitude'];
-$sql = 'insert into loc(name,age,lattitude,longitude)values ('.$name.','.$age.','.$lattitude.','.$longitude.')';
+$mes = "'".$_POST['mes']."'";
+$sql = 'insert into loc(name,age,lattitude,longitude,messege)values ('.$name.','.$age.','.$lattitude.','.$longitude.','.$mes.')';
 $result = $conn-> query($sql);
 if($result==true){
     echo 'Today is a great day my friend';
 }
 else{
+    echo $sql;
     die("Today is not a great day my friend".$conn->error);
 }
 
