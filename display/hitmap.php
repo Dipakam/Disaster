@@ -42,7 +42,7 @@ $index = 0;
 <link href='https://api.mapbox.com/mapbox-gl-js/v0.50.0/mapbox-gl.css' rel='stylesheet' />
 <style>
 .marker {
-  background-image: url('mapbox-icon.png');
+  background-image : 'url(https://placekitten.com/g/' + marker.properties.iconSize.join('/') + '/)';;
   background-size: cover;
   width: 50px;
   height: 50px;
@@ -71,16 +71,43 @@ $index = 0;
                     zoom:  13,
                     style: 'mapbox://styles/mapbox/streets-v10'
                 });
-                var geojson = {};
-                geojson['type'] = 'FeatureCollection';
+                var geojson = {
+                  type: 'FeatureCollection',
+                  features: [{
+                    type: 'Feature',
+                    geometry: {
+                      type: 'Point',
+                      coordinates: [80.2368039,26.513967299999997]
+                    },
+                    properties: {
+                      title: 'Mapbox',
+                      description: 'Washington, D.C.'
+                    }
+                  },
+                  {
+                    type: 'Feature',
+                    geometry: {
+                      type: 'Point',
+                      coordinates: [-122.414, 37.776]
+                    },
+                    properties: {
+                      title: 'Mapbox',
+                      description: 'San Francisco, California'
+                    }
+                  }]
+                };                
+
+
+                /*geojson['type'] = 'FeatureCollection';
                 geojson['features'] = [];
 
-                for (row = 0;row < length;row ++) {
+                var row  = 0
+                //for (row = 0;row < 1;row ++) {
                     var newFeature = {
                         "type": "Feature",
                         "geometry": {
                             "type": "Point",
-                            "coordinates": [longitude[row], lattitude[row]]
+                            "coordinates": [80.2368039, 26.513967299999997]
                         },
                         "properties": {
                             "title": "Mapbox"
@@ -88,8 +115,8 @@ $index = 0;
                         }
                     }
                     geojson['features'].push(newFeature);
-                }
-
+                //}
+*/
 
                 // add markers to map
                 geojson.features.forEach(function(marker) {
@@ -111,22 +138,10 @@ $index = 0;
 
 
 
-                //var obj = <?php //echo json_encode($result); ?>;
+
              
-                //document.getElementById("demo1").innerHTML = longitude[0];
-                //document.getElementById("demo2").innerHTML = longitude[1];
-                //var row = 0;
-                //for (row = 0;row < length;row ++) {
-                
-                //var marker = new mapboxgl.Marker()
-                //.setLngLat([lattitude[row], longitude[row]])
-                //.addTo(map);
-                //}
+
             </script>
     </body>
-    <?php
-    
-    
-    
-    ?>
+
 </html>
