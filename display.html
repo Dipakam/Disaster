@@ -1,0 +1,36 @@
+<?php
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "location";
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+$sql = " select * from loc ";
+$result = $conn->query($sql);
+$i = 0;
+$row = $result->fetch_assoc();
+while($row){
+    $mes[$i] = $row['messege'];
+    $name[$i] = $row['name'];
+    $row = $result->fetch_assoc();
+    $i = $i + 1;
+}
+$length = $i;
+$index = 0;
+?>
+<html>
+    <head>
+        <title>Display bitch</title>
+    </head>
+    <body>
+        <?php for ($index = 0;$index < $length; $index++){ ?>
+        <h4><?php if($mes[$index] != NULL) {echo $name[$index];} ?></h1>
+        <p><?php echo $mes[$index]; ?></p>
+        <?php } ?>
+    </body>
+
+</html>
