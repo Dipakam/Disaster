@@ -27,6 +27,9 @@ while($row){
     
     $longitudes[$i] = $row['longitude'];
     $lattitudes[$i] = $row['lattitude'];
+    $messeges[$i] = $row['messege'];
+    $names[$i] = $row['name'];
+    $ages[$i] = $row['age'];
     $row = $result->fetch_assoc();
     $i = $i + 1;
 }
@@ -42,7 +45,7 @@ $index = 0;
 <link href='https://api.mapbox.com/mapbox-gl-js/v0.50.0/mapbox-gl.css' rel='stylesheet' />
 <style>
 .marker {
-  background-image : url('deepak.jpg');
+  background-image : url('Tank.png');
   background-size: cover;
   width: 50px;
   height: 50px;
@@ -60,9 +63,16 @@ $index = 0;
                 var length = <?php echo $length; ?>;
                 var longitude = new Array();
                 var lattitude = new Array();
+                var messeges = new Array();
+                var fame = new Array();
+                var fate = new Array();
+        
                 <?php for ($index = 0;$index<$length;$index++){ ?>
                 longitude.push('<?php echo $longitudes[$index]; ?>');
                 lattitude.push('<?php echo $lattitudes[$index]; ?>');
+                messeges.push('<?php echo $messeges[$index]; ?>');
+                fame.push('<?php echo $names[$index]; ?>');
+                fate.push('<?php echo $ages[$index]; ?>');
                 <?php } ?>
                 mapboxgl.accessToken = 'pk.eyJ1IjoidGFvZ21hb2ciLCJhIjoiY2pucDUzZm8xMGZndjNscGZ3eW16NXRjNSJ9.NwxPcJd3-dAa49X32uz_CA';
                 var map = new mapboxgl.Map({
@@ -96,11 +106,9 @@ $index = 0;
                     }
                   }]
                 }; */               
-
                 var geojson = {};
                 geojson['type'] = 'FeatureCollection';
                 geojson['features'] = [];
-
                 var row  = 0
                 for (row = 0;row < length;row ++) {
                     var newFeature = {
@@ -110,37 +118,25 @@ $index = 0;
                             "coordinates": [longitude[row], lattitude[row]]
                         },
                         "properties": {
-                            "title": "Mapbox",
-                            "description": "save me"
+                            "title": fame[row]+", " +fate[row],
+                            "description": messeges[row]
                         }
                     }
                     geojson['features'].push(newFeature);
                 }
-
-
                 // add markers to map
                 geojson.features.forEach(function(marker) {
-
                   // create a HTML element for each feature
                   var el = document.createElement('div');
                   el.className = 'marker';
-
                   // make a marker for each feature and add to the map
                   new mapboxgl.Marker(el)
+                  .setPopup(new mapboxgl.Popup({ offset: 25 }) // add popups
+                  .setHTML('<h3>' + marker.properties.title + '</h3><p>' + marker.properties.description + '</p>'))
                   .setLngLat(marker.geometry.coordinates)
                   .addTo(map);
                 });
-
-
-
-
-
-
-
-
-
              
-
             </script>
     </body>
 
