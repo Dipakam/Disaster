@@ -42,7 +42,7 @@ $index = 0;
 <link href='https://api.mapbox.com/mapbox-gl-js/v0.50.0/mapbox-gl.css' rel='stylesheet' />
 <style>
 .marker {
-  background-image : 'url(https://placekitten.com/g/' + marker.properties.iconSize.join('/') + '/)';;
+  background-image : url('deepak.jpg');
   background-size: cover;
   width: 50px;
   height: 50px;
@@ -68,10 +68,10 @@ $index = 0;
                 var map = new mapboxgl.Map({
                     container: 'map',
                     center: [80.2368039,26.513967299999997],
-                    zoom:  13,
+                    zoom:  9,
                     style: 'mapbox://styles/mapbox/streets-v10'
                 });
-                var geojson = {
+               /* var geojson = {
                   type: 'FeatureCollection',
                   features: [{
                     type: 'Feature',
@@ -88,35 +88,35 @@ $index = 0;
                     type: 'Feature',
                     geometry: {
                       type: 'Point',
-                      coordinates: [-122.414, 37.776]
+                      coordinates: [81.2367039, 26.513967399999997]
                     },
                     properties: {
                       title: 'Mapbox',
                       description: 'San Francisco, California'
                     }
                   }]
-                };                
+                }; */               
 
-
-                /*geojson['type'] = 'FeatureCollection';
+                var geojson = {};
+                geojson['type'] = 'FeatureCollection';
                 geojson['features'] = [];
 
                 var row  = 0
-                //for (row = 0;row < 1;row ++) {
+                for (row = 0;row < length;row ++) {
                     var newFeature = {
                         "type": "Feature",
                         "geometry": {
                             "type": "Point",
-                            "coordinates": [80.2368039, 26.513967299999997]
+                            "coordinates": [longitude[row], lattitude[row]]
                         },
                         "properties": {
-                            "title": "Mapbox"
+                            "title": "Mapbox",
                             "description": "save me"
                         }
                     }
                     geojson['features'].push(newFeature);
-                //}
-*/
+                }
+
 
                 // add markers to map
                 geojson.features.forEach(function(marker) {
